@@ -1,0 +1,37 @@
+﻿<Window x:Class="Hotel_Una.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Hotel_Una" 
+        xmlns:views="clr-namespace:Hotel_Una.Views" xmlns:vms="clr-namespace:Hotel_Una.ViewModels"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        mc:Ignorable="d"
+        FontFamily="pack://application:,,,/Hotel_Una;component/Resources/#Poppins Regular"
+        Background="{StaticResource LightColorBrush}"
+        Foreground="{StaticResource DarkColorBrush}"
+        Title="MainWindow" Height="500" Width="900">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type vms:MakeReservationViewModel}">
+            <views:MakeReservationView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:RemoveReservationViewModel}">
+            <views:RemoveReservationView/>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Background="{StaticResource SecondaryColorBrush}">
+            <Button Margin="0,40,0,0" Style="{StaticResource NavButton}" Background="{StaticResource PrimaryColorBrush}" Content="Pregled rezervacija"/>
+            <Button Style="{StaticResource NavButton}" Content="Dodaj rezervaciju"/>
+            <Button Style="{StaticResource NavButton}" Content="Ukloni rezervaciju"/>
+            <Button Style="{StaticResource NavButton}" Content="Ažuriraj rezervaciju"/>
+            <Button Style="{StaticResource NavButton}" Content="Kalendar"/>
+        </StackPanel>
+        <ContentControl Margin="30, 20" Grid.Column="1" Content="{Binding CurrentViewModel}"/>
+    </Grid>
+</Window>
