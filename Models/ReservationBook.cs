@@ -23,8 +23,8 @@ namespace Hotel_Una.Models
                 {
                     throw new ReservationConflictsException(existingReservation, reservation);
                 }
-                _reservations.Add(reservation);
             }
+            _reservations.Add(reservation);
         }
         public void RemoveReservation(Reservation reservation)
         {

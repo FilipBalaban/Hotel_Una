@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Hotel_Una.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,9 +19,9 @@ namespace Hotel_Una.ViewModels
                 OnPropertyChanged(nameof(CurrentViewModel));
             }
         }
-        public MainViewModel()
+        public MainViewModel(Hotel hotel)
         {
-            CurrentViewModel = new RemoveReservationViewModel();
+            CurrentViewModel = new CalendarViewModel();
         }
     }
 }

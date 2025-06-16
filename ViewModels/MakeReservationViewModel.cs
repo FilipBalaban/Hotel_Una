@@ -12,8 +12,8 @@ namespace Hotel_Una.ViewModels
         private int _roomNum;
         private string _firstName;
         private string _lastName;
-        private DateTime _startDate;
-        private DateTime _endDate;
+        private DateTime _startDate = DateTime.Now;
+        private DateTime _endDate = DateTime.Now.AddDays(7);
         private int _numberOfGuests;
 
         public int RoomNum
