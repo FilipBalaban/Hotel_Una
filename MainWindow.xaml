@@ -22,11 +22,14 @@
         <DataTemplate DataType="{x:Type vms:RemoveReservationViewModel}">
             <views:RemoveReservationView />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vms:UpdateReservationViewModel}">
+            <views:UpdateReservationView />
+        </DataTemplate>
         <DataTemplate DataType="{x:Type vms:ReservationOverviewViewModel}">
             <views:ReservationsOverviewView />
         </DataTemplate>
         <DataTemplate DataType="{x:Type vms:CalendarViewModel}">
-            <views:CalendarView/>
+            <views:CalendarView />
         </DataTemplate>
     </Window.Resources>
     <Grid>
@@ -35,17 +38,8 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel Background="{StaticResource SecondaryColorBrush}">
-            <Button
-                Margin="0,40,0,0"
-                Background="{StaticResource PrimaryColorBrush}"
-                Content="Pregled rezervacija"
-                Style="{StaticResource NavButton}" />
-            <Button Content="Dodaj rezervaciju" Style="{StaticResource NavButton}" />
-            <Button Content="Ukloni rezervaciju" Style="{StaticResource NavButton}" />
-            <Button Content="Ažuriraj rezervaciju" Style="{StaticResource NavButton}" />
-            <Button Content="Kalendar" Style="{StaticResource NavButton}" />
-        </StackPanel>
+        <views:NavigationSideBarView DataContext="{Binding NavigationSideBarViewModel}" />
+
         <ContentControl
             Grid.Column="1"
             Margin="30,20"

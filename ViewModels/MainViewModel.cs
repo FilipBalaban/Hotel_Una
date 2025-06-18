@@ -1,4 +1,5 @@
 ﻿using Hotel_Una.Models;
+using Hotel_Una.Stores;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,19 +10,18 @@ namespace Hotel_Una.ViewModels
 {
     public class MainViewModel: BaseViewModel
     {
-        private BaseViewModel _currentViewModel;
-        public BaseViewModel CurrentViewModel
+        private readonly NavigationStore _navigationStore;
+        public BaseViewModel CurrentViewModel => _navigationStore.CurrentViewModel;
+        public NavigationSideBarViewModel NavigationSideBarViewModel { get; set; }
+        public MainViewModel(Hotel hotel, NavigationStore navigationStore)
         {
-            get => _currentViewModel;
-            set
-            {
-                _currentViewModel = value;
-                OnPropertyChanged(nameof(CurrentViewModel));
-            }
+            _navigationStore = navigationStore;
+            _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
+            NavigationSideBarViewModel = new NavigationSideBarViewModel(_navigationStore, hotel);
         }
-        public MainViewModel(Hotel hotel)
+        protected virtual void OnCurrentViewModelChanged()
         {
-            CurrentViewModel = new CalendarViewModel();
+            OnPropertyChanged(nameof(CurrentViewModel));
         }
     }
 }

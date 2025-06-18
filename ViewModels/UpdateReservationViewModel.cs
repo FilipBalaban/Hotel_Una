@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Hotel_Una.Commands;
+using Hotel_Una.Models;
+using Hotel_Una.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +25,9 @@ namespace Hotel_Una.ViewModels
         public ICommand SearchCommand { get; }
         public ICommand UpdateReservationCommand { get; }
         public ICommand CancelCommand { get; }
-
+        public UpdateReservationViewModel(Hotel hotel, NavigationService navigationService)
+        {
+            CancelCommand = new NavigateCommand(navigationService);
+        }
     }
 }

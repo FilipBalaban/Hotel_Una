@@ -1,4 +1,5 @@
-﻿using Hotel_Una.Views;
+﻿using Hotel_Una.Models;
+using Hotel_Una.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -26,7 +27,7 @@ namespace Hotel_Una.ViewModels
             }
         }
         public IEnumerable<Week> Weeks => _weeks;
-        public CalendarViewModel()
+        public CalendarViewModel(Hotel hotel)
         {
             _weeks = new ObservableCollection<Week>();
             SelectedDate = DateTime.Now.AddMonths(12);

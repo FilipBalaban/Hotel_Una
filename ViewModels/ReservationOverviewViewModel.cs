@@ -32,17 +32,18 @@ namespace Hotel_Una.ViewModels
         {
             _reservations = new ObservableCollection<ReservationViewModel>();
             _hotel = hotel;
-            LoadReservations();
+            //LoadReservations();
         }
         private void LoadReservations()
         {
-            _hotel.AddReservation(new Reservation(1, "Jovan", "Jovanovic", new DateTime(2025, 1, 1), new DateTime(2025, 1, 7), 2));
+            //_hotel.Re
+            //_hotel.AddReservation(new Reservation(1, "Jovan", "Jovanovic", new DateTime(2025, 1, 1), new DateTime(2025, 1, 7), 2));
 
-            _reservations.Clear();
-            foreach(Reservation reservation in _hotel.GetReservations())
-            {
-                _reservations.Add(new ReservationViewModel(reservation));
-            }
+            //_reservations.Clear();
+            //foreach(Reservation reservation in _hotel.GetReservations())
+            //{
+            //    _reservations.Add(new ReservationViewModel(reservation));
+            //}
         }
     }
 }

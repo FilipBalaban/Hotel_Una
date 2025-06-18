@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Hotel_Una.Commands;
+using Hotel_Una.Models;
+using Hotel_Una.Services;
+using Hotel_Una.Stores;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,8 +16,8 @@ namespace Hotel_Una.ViewModels
         private int _roomNum;
         private string _firstName;
         private string _lastName;
-        private DateTime _startDate = DateTime.Now;
-        private DateTime _endDate = DateTime.Now.AddDays(7);
+        private DateTime _startDate;
+        private DateTime _endDate;
         private int _numberOfGuests;
 
         public int RoomNum
@@ -72,5 +76,13 @@ namespace Hotel_Una.ViewModels
         }
         public ICommand ReserveCommand { get; }
         public ICommand CancelCommand { get; }
+
+        public MakeReservationViewModel(Hotel hotel, NavigationService navigationService)
+        {
+            StartDate = DateTime.Now;
+            EndDate = DateTime.Now.AddDays(7);
+            ReserveCommand = new MakeReservationCommand(hotel, this, navigationService);
+            CancelCommand = new NavigateCommand(navigationService);
+        }
     }
 }
