@@ -29,50 +29,50 @@ namespace Hotel_Una.ViewModels
         public CalendarViewModel()
         {
             _weeks = new ObservableCollection<Week>();
-            SelectedDate = DateTime.Now;
+            SelectedDate = DateTime.Now.AddMonths(12);
         }
         private void DisplayCalendar()
         {
-            int days = DateTime.DaysInMonth(_selectedDate.Year, _selectedDate.Month);
-            int daysInWeekCounter = 0;
+            int daysInMonth = DateTime.DaysInMonth(_selectedDate.Year, _selectedDate.Month);
+            int daysInWeekCounter = 1;
             Week week = new Week();
-            for(int i = 1; i <= days; i++)
+            for(int i = 1; i <= daysInMonth; i++)
             {
-                string dayInMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, i).ToString("dddd");
-                if(daysInWeekCounter < 7)
+                string dayInMonth = new DateTime(_selectedDate.Year, _selectedDate.Month, i).ToString("dddd");
+                if(i == 1 && dayInMonth != "Sunday")
                 {
-                    switch (dayInMonth)
+                    int lastMonth = new DateTime(_selectedDate.Year, _selectedDate.Month, 1).AddMonths(-1).Month;
+                    int actualDayInWeek = (int)new DateTime(_selectedDate.Year, _selectedDate.Month, i).DayOfWeek;
+                    int daysInLastMonth = DateTime.DaysInMonth(_selectedDate.Year, lastMonth);
+                    for (int j = daysInLastMonth - actualDayInWeek + 1; j <= daysInLastMonth; j++)
                     {
-                        case "Monday":
-                            week.Monday = i;
-                            break;
-                        case "Tuesday":
-                            week.Tuesday = i;
-                            break;
-                        case "Wednesday":
-                            week.Wednesday = i;
-                            break;
-                        case "Thursday":
-                            week.Thursday = i;
-                            break;
-                        case "Friday":
-                            week.Friday = i;
-                            break;
-                        case "Saturday":
-                            week.Saturday = i;
-                            break;
-                        case "Sunday":
-                            week.Sunday = i;
-                            break;
+                        string dayInLastMonth = new DateTime(_selectedDate.Year, lastMonth, j).ToString("dddd");
+                        week.AssignDateToDay(j, dayInLastMonth);
+                        daysInWeekCounter++;
                     }
                 }
-                else
+                week.AssignDateToDay(i, dayInMonth);
+
+                if (daysInWeekCounter >= 7)
                 {
                     _weeks.Add(week);
                     week = new Week();
                     daysInWeekCounter = 0;
                 }
                 daysInWeekCounter++;
+                if (i == daysInMonth && dayInMonth != "Saturday")
+                {
+                    int nextMonth = new DateTime(_selectedDate.Year, _selectedDate.Month, 1).AddMonths(1).Month;
+                    int actualDayInWeek = (int)new DateTime(_selectedDate.Year, _selectedDate.Month, i).DayOfWeek;
+                    int daysInNextMonth = DateTime.DaysInMonth(_selectedDate.Year, nextMonth);
+                    for (int j = 1; j < 7 - actualDayInWeek; j++)
+                    {
+                        string dayInNextMonth = new DateTime(_selectedDate.Year, nextMonth, j).ToString("dddd");
+                        week.AssignDateToDay(j, dayInNextMonth);
+                        daysInWeekCounter++;
+                    }
+                    _weeks.Add(week);
+                }
             }
         }
     }
