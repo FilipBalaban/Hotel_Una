@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Accessibility;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,6 +33,7 @@ namespace Hotel_Una.Models
         // From VM
         public Reservation(int roomNum, string firstName, string lastName, DateTime startDate, DateTime endDate, int numberOfGuests)
         {
+            ID = 1;
             RoomNum = roomNum;
             FirstName = firstName;
             LastName = lastName;
@@ -42,7 +44,7 @@ namespace Hotel_Una.Models
         }
         public bool CausesConflicts(Reservation reservation)
         {
-            if(ID != reservation.ID)
+            if(RoomNum != reservation.RoomNum)
             {
                 return false;
             }

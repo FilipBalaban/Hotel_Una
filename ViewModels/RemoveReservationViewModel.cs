@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Hotel_Una.ViewModels
@@ -16,6 +17,8 @@ namespace Hotel_Una.ViewModels
     {
         private int _reservationID;
         private UIElement _reservationContentControl;
+        private Hotel _hotel;
+
         public int ReservationID
         {
             get => _reservationID;
@@ -39,7 +42,14 @@ namespace Hotel_Una.ViewModels
         public ICommand CancelCommand { get; }
         public RemoveReservationViewModel(Hotel hotel, NavigationService navigationService)
         {
+            _hotel = hotel;
+            SearchCommand = new SearchCommand(_hotel, this);
             CancelCommand = new NavigateCommand(navigationService);
+        }
+        public void UpdateReservationContentControl(Reservation reservation)
+        {
+            
+
         }
     }
 }

@@ -41,7 +41,7 @@
             </Grid>
             <Button Command="{Binding SearchCommand}" Margin="148,0,0,0" Width="100" VerticalAlignment="Bottom" Height="38" Style="{StaticResource PrimaryBtn}" Content="Pretraži" Grid.Column="1"/>
         </Grid>
-        <ContentControl Grid.Row="2" Content="{Binding ReservationContentControl}" Margin="0, 24, 0, 0"/>
+        <ContentControl Grid.Row="2" Content="{Binding ReservationContentControl, Mode=TwoWay}" Margin="0, 24, 0, 0"/>
         <StackPanel Orientation="Horizontal" Grid.Row="3" Margin="0, 24, 0, 0">
             <Button Content="Ukloni" Width="100" Style="{StaticResource PrimaryBtn}" Command="{Binding RemoveReservationCommand}" Margin="0, 0, 24, 0" Background="{StaticResource AlertColorBrush}"/>
             <Button Content="Odustani" Width="100" Command="{Binding CancelCommand}" />

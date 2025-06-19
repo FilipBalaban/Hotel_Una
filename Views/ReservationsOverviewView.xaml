@@ -22,9 +22,11 @@
             Grid.Row="1"
             Margin="0,48,0,0"
             Orientation="Horizontal">
+            <TextBlock Text="Sortiraj:" VerticalAlignment="Center"/>
             <ComboBox
-                MinWidth="120"
-                Margin="0,0,24,0"
+                MinWidth="140"
+                Height="30"
+                Margin="8,0,24,0"
                 VerticalContentAlignment="Center"
                 IsReadOnly="True"
                 DisplayMemberPath="Name"
@@ -33,7 +35,7 @@
                 SelectedValuePath="Value"
                 Style="{StaticResource RoundComboBox}" />
             <ComboBox
-                MinWidth="120"
+                MinWidth="140"
                 Text="Sortiraj po:"
                 Margin="0,0,24,0"
                 IsReadOnly="True"
@@ -42,11 +44,6 @@
                 SelectedValue="{Binding SelectedSortingOrder, Mode=TwoWay}"
                 SelectedValuePath="Value"
                 Style="{StaticResource RoundComboBox}" />
-            <Button
-                MinWidth="100"
-                Command="{Binding SortReservationsCommand}"
-                Content="Sortiraj"
-                Style="{StaticResource PrimaryBtn}" />
         </StackPanel>
         <ListView
             Grid.Row="2"
