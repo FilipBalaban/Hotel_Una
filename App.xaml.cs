@@ -17,7 +17,7 @@ namespace Hotel_Una
         private readonly NavigationSideBarViewModel _navigationSideBarViewModel;
         public App()
         {
-            _hotel = new Hotel("Slavorum's Suites");
+            _hotel = new Hotel("Hotel Una");
             _navigationStore = new NavigationStore();
             _navigationSideBarViewModel = new NavigationSideBarViewModel(_navigationStore, _hotel);
             _navigationStore.CurrentViewModel = new ReservationOverviewViewModel(_hotel);

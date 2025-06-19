@@ -13,9 +13,10 @@ namespace Hotel_Una.Commands
 {
     public class SearchCommand : BaseCommand
     {
-        private RemoveReservationViewModel _removeReservationViewModel;
+        private RemoveReservationViewModel? _removeReservationViewModel;
+        private UpdateReservationViewModel? _updateReservationViewModel;
         private readonly Hotel _hotel;
-        public RemoveReservationViewModel RemoveReservationView
+        public RemoveReservationViewModel? RemoveReservationView
         {
             get => _removeReservationViewModel;
             set
@@ -23,18 +24,36 @@ namespace Hotel_Una.Commands
                 _removeReservationViewModel = value;
             }
         }
+        public UpdateReservationViewModel? UpdateReservationViewModel
+        {
+            get => _updateReservationViewModel;
+            set
+            {
+                _updateReservationViewModel = value;
+            }
+        }
         public SearchCommand(Hotel hotel, RemoveReservationViewModel removeReservationViewModel)
         {
             _hotel = hotel;
             _removeReservationViewModel = removeReservationViewModel;
             _removeReservationViewModel.PropertyChanged += OnViewModelPropertyChanged;
+            
         }
-        
+        public SearchCommand(Hotel hotel, UpdateReservationViewModel updateReservationViewModel)
+        {
+            _hotel = hotel;
+            _updateReservationViewModel = updateReservationViewModel;
+            _updateReservationViewModel.PropertyChanged += OnViewModelPropertyChanged;
+        }
         public override bool CanExecute(object? parameter)
         {
             if(_removeReservationViewModel != null)
             {
                 return _removeReservationViewModel.ReservationID > 0;
+            }
+            else if(_updateReservationViewModel != null)
+            {
+                return _updateReservationViewModel.ReservationID > 0;
             }
             else
             {
@@ -43,10 +62,29 @@ namespace Hotel_Una.Commands
         }
         public override void Execute(object? parameter)
         {
-            var reservation = _hotel.GetReservations().ToList().FirstOrDefault(r => r.ID == _removeReservationViewModel.ReservationID);
+            int reservationID = 0;
+            if(_removeReservationViewModel != null)
+            {
+                reservationID = _removeReservationViewModel.ReservationID;
+            }
+            else
+            {
+                reservationID = _updateReservationViewModel.ReservationID;
+            }
+
+            var reservation = _hotel.GetReservations().ToList().FirstOrDefault(r => r.ID == reservationID);
             if (reservation != null)
             {
-                _removeReservationViewModel.ReservationContentControl = new ReservationViewModel(reservation).GetReservationDataContentControl();
+                if (_removeReservationViewModel != null)
+                {
+                    _removeReservationViewModel.ReservationViewModel = new ReservationViewModel(reservation);
+                    _removeReservationViewModel.ReservationContentControl = _removeReservationViewModel.ReservationViewModel.GetReservationDataContentControl();
+                }
+                else
+                {
+                    _updateReservationViewModel.ReservationViewModel = new ReservationViewModel(reservation);
+                    _updateReservationViewModel.ReservationInputContentControl = _updateReservationViewModel.ReservationViewModel.GetReservationInputContentControl();
+                }
             }
             else
             {
@@ -55,7 +93,7 @@ namespace Hotel_Una.Commands
         }
         private void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if(e.PropertyName == nameof(_removeReservationViewModel.ReservationID))
+            if(e.PropertyName == nameof(_updateReservationViewModel.ReservationID))
             {
                 OnCanExecuteChanged();
             }

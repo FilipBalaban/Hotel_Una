@@ -88,6 +88,79 @@ namespace Hotel_Una.ViewModels
 
             return border;
         }
+        public UIElement GetReservationInputContentControl()
+        {
+            Grid grid = new Grid();
+            grid.RowDefinitions.Add(new RowDefinition()); // 0
+            grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(8) }); // 1
+            grid.RowDefinitions.Add(new RowDefinition()); // 2
+            grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(8) }); // 3
+            grid.RowDefinitions.Add(new RowDefinition()); // 4
+            grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(8) }); // 5
+            grid.RowDefinitions.Add(new RowDefinition()); // 6
+
+            grid.ColumnDefinitions.Add(new ColumnDefinition());
+            grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(8) });
+            grid.ColumnDefinitions.Add(new ColumnDefinition());
+
+            StackPanel roomStackPanel = GetInputStackPanel("Broj sobe", "RoomNum");
+            grid.Children.Add(roomStackPanel);
+
+            StackPanel firstNameStackPanel = GetInputStackPanel("Ime: ", "FirstName");
+            Grid.SetRow(firstNameStackPanel, 2);
+            grid.Children.Add(firstNameStackPanel);
+
+            StackPanel lastNameStackPanel = GetInputStackPanel("Prezime: ", "LastName");
+            Grid.SetRow(lastNameStackPanel, 2);
+            Grid.SetColumn(lastNameStackPanel, 2);
+            grid.Children.Add(lastNameStackPanel);
+
+            StackPanel startDateStackPanel = GetInputStackPanel("Check in: ", "StartDate");
+            Grid.SetRow(startDateStackPanel, 4);
+            Grid.SetColumn(startDateStackPanel, 0);
+            grid.Children.Add(startDateStackPanel);
+
+            StackPanel endDateStackPanel = GetInputStackPanel("Check out: ", "EndDate");
+            Grid.SetRow(endDateStackPanel, 4);
+            Grid.SetColumn(endDateStackPanel, 2);
+            grid.Children.Add(endDateStackPanel);
+
+            StackPanel numberOfGuestsStackPanel= GetInputStackPanel("Broj gostiju: ", "NumberOfGuests");
+            Grid.SetRow(numberOfGuestsStackPanel, 6);
+            Grid.SetColumn(numberOfGuestsStackPanel, 0);
+            grid.Children.Add(numberOfGuestsStackPanel);
+
+            Border border = new Border()
+            {
+                Child = grid,
+                Background = App.Current.Resources["SecondaryColorBrush"] as SolidColorBrush,
+                Padding = new Thickness(20),
+                CornerRadius = new CornerRadius(8),
+
+            };
+            return border;
+        }
+        private StackPanel GetInputStackPanel(string textBlockValue, string textBoxBinding)
+        {
+            StackPanel stackPanel = new StackPanel();
+            TextBlock textBlock = new TextBlock()
+            {
+                Text = textBlockValue,
+                Foreground = App.Current.Resources["LightColorBrush"] as SolidColorBrush,
+                Margin = new Thickness(0, 0, 0, 8),
+            };
+            TextBox textBox = new TextBox()
+            {
+                Width = 150,
+                Height = 30,
+                BorderThickness = new Thickness(0),
+                HorizontalAlignment = HorizontalAlignment.Left,
+            };
+            textBox.SetBinding(TextBox.TextProperty, textBoxBinding);
+            stackPanel.Children.Add(textBlock);
+            stackPanel.Children.Add(textBox);
+            return stackPanel;
+        }
         private StackPanel GetDataStackPanel(string propertyLabel, string propertyValue)
         {
             StackPanel stackPanel = new StackPanel()

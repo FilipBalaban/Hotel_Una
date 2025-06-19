@@ -35,7 +35,7 @@ namespace Hotel_Una.Commands
             try
             {
                 _hotel.AddReservation(reservation);
-                MessageBox.Show("Soba je uspješno rezervisana", "Uspijeh", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Soba je uspješno rezervisana", "Uspjeh", MessageBoxButton.OK, MessageBoxImage.Information);
                 _navigationService.Navigate();
             } catch (ReservationConflictsException e)
             {
