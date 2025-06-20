@@ -55,10 +55,7 @@ namespace Hotel_Una.Commands
             {
                 return _updateReservationViewModel.ReservationID > 0;
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
         public override void Execute(object? parameter)
         {
