@@ -35,6 +35,38 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <!--  PrimaryButton  -->
+        <Style
+            x:Key="PrimaryBtn"
+            BasedOn="{StaticResource {x:Type Button}}"
+            TargetType="Button">
+            <Setter Property="Background" Value="#0029B7" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <!--<Setter Property="FontFamily" Value="pack://application:,,,/Hotel_Una;component/Resources/#Poppins Bold" />-->
+        </Style>
+        <!--  SecondaryButton  -->
+        <Style
+            x:Key="SecondaryBtn"
+            BasedOn="{StaticResource {x:Type Button}}"
+            TargetType="Button">
+            <Setter Property="Background" Value="#000B31" />
+        </Style>
+        <!--  AlertButton  -->
+        <Style
+            x:Key="AlertButton"
+            BasedOn="{StaticResource {x:Type Button}}"
+            TargetType="Button">
+            <Setter Property="Background" Value="#B70000" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+        <!--  AlertButton  -->
+        <Style
+            x:Key="WarningButton"
+            BasedOn="{StaticResource {x:Type Button}}"
+            TargetType="Button">
+            <Setter Property="Background" Value="#DE7600" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
         <!--  RadioButton  -->
         <Style x:Key="NavButton" TargetType="RadioButton">
             <Setter Property="HorizontalAlignment" Value="Center" />
@@ -82,22 +114,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <!--  PrimaryButton  -->
-        <Style
-            x:Key="PrimaryBtn"
-            BasedOn="{StaticResource {x:Type Button}}"
-            TargetType="Button">
-            <Setter Property="Background" Value="#0029B7" />
-            <Setter Property="FontWeight" Value="Bold" />
-            <!--<Setter Property="FontFamily" Value="pack://application:,,,/Hotel_Una;component/Resources/#Poppins Bold" />-->
-        </Style>
-        <!--  SecondaryButton  -->
-        <Style
-            x:Key="SecondaryBtn"
-            BasedOn="{StaticResource {x:Type Button}}"
-            TargetType="Button">
-            <Setter Property="Background" Value="#000B31" />
-        </Style>
+
         <!--  Heading  -->
         <Style x:Key="Heading" TargetType="TextBlock">
             <Setter Property="FontSize" Value="24" />

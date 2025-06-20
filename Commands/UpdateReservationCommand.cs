@@ -28,7 +28,12 @@ namespace Hotel_Una.Commands
 
         private void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(_updateReservationViewModel.ReservationInputContentControl))
+            if (e.PropertyName == nameof(_updateReservationViewModel.RoomNum) || 
+                e.PropertyName == nameof(_updateReservationViewModel.FirstName) ||
+                e.PropertyName == nameof(_updateReservationViewModel.LastName) ||
+                e.PropertyName == nameof(_updateReservationViewModel.StartDate) ||
+                e.PropertyName == nameof(_updateReservationViewModel.EndDate) ||
+                e.PropertyName == nameof(_updateReservationViewModel.NumberOfGuests))
             {
                 OnCanExecuteChanged();
             }
@@ -36,27 +41,24 @@ namespace Hotel_Una.Commands
 
         public override bool CanExecute(object? parameter)
         {
-            return _updateReservationViewModel.ReservationInputContentControl != null;
+            return _updateReservationViewModel.RoomNum > 0 && !(string.IsNullOrEmpty(_updateReservationViewModel.FirstName)) && !(string.IsNullOrEmpty(_updateReservationViewModel.LastName)) && _updateReservationViewModel.NumberOfGuests > 0;
         }
         public override void Execute(object? parameter)
         {
+            Reservation reservation = new Reservation(_updateReservationViewModel.ReservationID, _updateReservationViewModel.RoomNum, _updateReservationViewModel.FirstName, _updateReservationViewModel.LastName, _updateReservationViewModel.StartDate, _updateReservationViewModel.EndDate, _updateReservationViewModel.NumberOfGuests);
             try
             {
-                Reservation reservation = new Reservation(_updateReservationViewModel.ReservationViewModel.RoomNum, _updateReservationViewModel.ReservationViewModel.FirstName, _updateReservationViewModel.ReservationViewModel.LastName, _updateReservationViewModel.ReservationViewModel.StartDate, _updateReservationViewModel.ReservationViewModel.EndDate, _updateReservationViewModel.ReservationViewModel.NumberOfGuests);
-                if (reservation != null)
-                {
-                    _hotel.UpdateReservation(reservation);
-                }
-                else
-                {
-                    throw new NonExistentReservationException(reservation);
-                }
+                _hotel.UpdateReservation(reservation);
                 MessageBox.Show("Rezervacija je uspješno ažurirana", "Uspjeh", MessageBoxButton.OK, MessageBoxImage.Information);
                 _navigationService.Navigate();
             }
             catch (NonExistentReservationException ex)
             {
                 MessageBox.Show("Rezervacija nije pronađena", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (ReservationConflictsException ex)
+            {
+                MessageBox.Show("Soba je zauzeta tokom ovog datuma", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

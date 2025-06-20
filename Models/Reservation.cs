@@ -9,6 +9,7 @@ namespace Hotel_Una.Models
 {
     public class Reservation
     {
+        private static int _objectCounter;
         public int ID { get; }
         public int RoomNum { get; set; }
         public string FirstName { get; set; }
@@ -33,7 +34,8 @@ namespace Hotel_Una.Models
         // From VM
         public Reservation(int roomNum, string firstName, string lastName, DateTime startDate, DateTime endDate, int numberOfGuests)
         {
-            ID = 1;
+            _objectCounter++;
+            ID = _objectCounter;
             RoomNum = roomNum;
             FirstName = firstName;
             LastName = lastName;
@@ -44,7 +46,7 @@ namespace Hotel_Una.Models
         }
         public bool CausesConflicts(Reservation reservation)
         {
-            if(RoomNum != reservation.RoomNum)
+            if(RoomNum != reservation.RoomNum || ID == reservation.ID)
             {
                 return false;
             }

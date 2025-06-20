@@ -71,10 +71,9 @@
             <Button
                 Width="100"
                 Margin="0,0,24,0"
-                Background="{StaticResource WarningColorBrush}"
+                Style="{StaticResource WarningButton}"
                 Command="{Binding UpdateReservationCommand}"
-                Content="Ažuriraj"
-                Style="{StaticResource PrimaryBtn}" />
+                Content="Ažuriraj" />
             <Button
                 Width="100"
                 Command="{Binding CancelCommand}"

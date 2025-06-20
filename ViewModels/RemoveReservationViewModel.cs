@@ -37,7 +37,6 @@ namespace Hotel_Una.ViewModels
                 OnPropertyChanged(nameof(ReservationContentControl));
             }
         }
-        public ReservationViewModel ReservationViewModel { get; set; }
         public ICommand SearchCommand { get; }
         public ICommand RemoveReservationCommand { get; }
         public ICommand CancelCommand { get; }

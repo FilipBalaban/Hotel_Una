@@ -77,13 +77,18 @@ namespace Hotel_Una.Commands
             {
                 if (_removeReservationViewModel != null)
                 {
-                    _removeReservationViewModel.ReservationViewModel = new ReservationViewModel(reservation);
-                    _removeReservationViewModel.ReservationContentControl = _removeReservationViewModel.ReservationViewModel.GetReservationDataContentControl();
+                    _removeReservationViewModel.ReservationContentControl = new ReservationViewModel(reservation).GetReservationDataContentControl();
                 }
                 else
                 {
-                    _updateReservationViewModel.ReservationViewModel = new ReservationViewModel(reservation);
-                    _updateReservationViewModel.ReservationInputContentControl = _updateReservationViewModel.ReservationViewModel.GetReservationInputContentControl();
+                    _updateReservationViewModel.RoomNum = reservation.RoomNum;
+                    _updateReservationViewModel.FirstName = reservation.FirstName;
+                    _updateReservationViewModel.LastName = reservation.LastName;
+                    _updateReservationViewModel.StartDate = reservation.StartDate;
+                    _updateReservationViewModel.EndDate = reservation.EndDate;
+                    _updateReservationViewModel.NumberOfGuests = reservation.NumberOfGuests;
+
+                    _updateReservationViewModel.ReservationInputContentControl = new ReservationViewModel(reservation).GetReservationInputContentControl();
                 }
             }
             else

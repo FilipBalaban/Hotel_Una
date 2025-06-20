@@ -115,12 +115,13 @@ namespace Hotel_Una.ViewModels
             Grid.SetColumn(lastNameStackPanel, 2);
             grid.Children.Add(lastNameStackPanel);
 
-            StackPanel startDateStackPanel = GetInputStackPanel("Check in: ", "StartDate");
+            StackPanel startDateStackPanel = GetInputStackPanel("Check in: ", "StartDate", "DatePicker");
+
             Grid.SetRow(startDateStackPanel, 4);
             Grid.SetColumn(startDateStackPanel, 0);
             grid.Children.Add(startDateStackPanel);
 
-            StackPanel endDateStackPanel = GetInputStackPanel("Check out: ", "EndDate");
+            StackPanel endDateStackPanel = GetInputStackPanel("Check out: ", "EndDate", "DatePicker");
             Grid.SetRow(endDateStackPanel, 4);
             Grid.SetColumn(endDateStackPanel, 2);
             grid.Children.Add(endDateStackPanel);
@@ -140,7 +141,7 @@ namespace Hotel_Una.ViewModels
             };
             return border;
         }
-        private StackPanel GetInputStackPanel(string textBlockValue, string textBoxBinding)
+        private StackPanel GetInputStackPanel(string textBlockValue, string binding, string inputElementType="TextBox")
         {
             StackPanel stackPanel = new StackPanel();
             TextBlock textBlock = new TextBlock()
@@ -149,16 +150,28 @@ namespace Hotel_Una.ViewModels
                 Foreground = App.Current.Resources["LightColorBrush"] as SolidColorBrush,
                 Margin = new Thickness(0, 0, 0, 8),
             };
-            TextBox textBox = new TextBox()
+            if (inputElementType == "TextBox")
             {
-                Width = 150,
-                Height = 30,
-                BorderThickness = new Thickness(0),
-                HorizontalAlignment = HorizontalAlignment.Left,
-            };
-            textBox.SetBinding(TextBox.TextProperty, textBoxBinding);
+                TextBox textBox = new TextBox()
+                {
+                    Width = 150,
+                    Height = 30,
+                    BorderThickness = new Thickness(0),
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                };
+                Binding textBoxBinding = new Binding(binding);
+                textBoxBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+                textBox.SetBinding(TextBox.TextProperty, textBoxBinding);
+                stackPanel.Children.Add(textBox);
+            }
+            else if(inputElementType == "DatePicker")
+            {
+                DatePicker datePicker = new DatePicker();
+                datePicker.SetBinding(DatePicker.SelectedDateProperty, binding);
+                stackPanel.Children.Add(datePicker);
+            }
+
             stackPanel.Children.Add(textBlock);
-            stackPanel.Children.Add(textBox);
             return stackPanel;
         }
         private StackPanel GetDataStackPanel(string propertyLabel, string propertyValue)

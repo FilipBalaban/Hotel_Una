@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Hotel_Una.Models
 {
-    public  class ReservationBook
+    public class ReservationBook
     {
         private readonly List<Reservation> _reservations;
 
@@ -34,13 +34,21 @@ namespace Hotel_Una.Models
             }
             _reservations.Remove(reservation);
         }
-        public void UpdateReservation(Reservation reservation)
+        public void UpdateReservation(Reservation newReservation)
         {
-            if (!_reservations.Contains(reservation))
+            if (!_reservations.Any(r => r.ID == newReservation.ID))
             {
-                throw new NonExistentReservationException(reservation);
+                throw new NonExistentReservationException(newReservation);
             }
-            _reservations[_reservations.IndexOf(reservation)] = reservation;
+            foreach (Reservation existingReservation in _reservations)
+            {
+                if (newReservation.CausesConflicts(existingReservation))
+                {
+                    throw new ReservationConflictsException(existingReservation, newReservation);
+                }
+            }
+            
+            _reservations[_reservations.IndexOf(_reservations.FirstOrDefault(r => r.ID == newReservation.ID))] = newReservation;
         }
         public IEnumerable<Reservation> GetReservations()
         {
