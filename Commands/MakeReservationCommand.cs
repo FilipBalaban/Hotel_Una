@@ -37,9 +37,15 @@ namespace Hotel_Una.Commands
                 _hotel.AddReservation(reservation);
                 MessageBox.Show("Soba je uspješno rezervisana", "Uspjeh", MessageBoxButton.OK, MessageBoxImage.Information);
                 _navigationService.Navigate();
-            } catch (ReservationConflictsException e)
+            } catch (ReservationConflictsException ex)
             {
                 MessageBox.Show("Soba je zauzeta tokom ovog datuma", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+            } catch(NonExistentRoomException ex)
+            {
+                MessageBox.Show("Soba ne postoji", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+            } catch(InsufficientRoomCapacityException ex)
+            {
+                MessageBox.Show("Kapacitet sobe ne podržava ovaj broj gostiju", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         private void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)

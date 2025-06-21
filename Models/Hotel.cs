@@ -25,15 +25,18 @@ namespace Hotel_Una.Models
         }
         public void AddReservation(Reservation reservation)
         {
+            CheckRoomCompatibility(reservation);
+
             _reservationBook.AddReservation(reservation);
         }
         public void RemoveReservation(Reservation reservation)
         {
             _reservationBook.RemoveReservation(reservation);
         }
-        public void UpdateReservation(Reservation reservation)
+        public void UpdateReservation(Reservation newReservation)
         {
-            _reservationBook.UpdateReservation(reservation);
+            CheckRoomCompatibility(newReservation);
+            _reservationBook.UpdateReservation(newReservation);
         }
         public IEnumerable<Reservation> GetReservations()
         {
@@ -42,6 +45,18 @@ namespace Hotel_Una.Models
         public IEnumerable<Room> GetRooms()
         {
             return _rooms;
+        }
+        private void CheckRoomCompatibility(Reservation reservation)
+        {
+            Room room = _rooms.FirstOrDefault(r => r.RoomNum == reservation.RoomNum);
+            if (room == null)
+            {
+                throw new NonExistentRoomException(reservation.RoomNum);
+            }
+            if (room.Capacity < reservation.NumberOfGuests)
+            {
+                throw new InsufficientRoomCapacityException(room, reservation.NumberOfGuests);
+            }
         }
     }
 }

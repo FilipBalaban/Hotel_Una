@@ -60,6 +60,14 @@ namespace Hotel_Una.Commands
             {
                 MessageBox.Show("Soba je zauzeta tokom ovog datuma", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            catch (NonExistentRoomException ex)
+            {
+                MessageBox.Show("Soba ne postoji", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (InsufficientRoomCapacityException ex)
+            {
+                MessageBox.Show("Kapacitet sobe ne podržava ovaj broj gostiju", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }
