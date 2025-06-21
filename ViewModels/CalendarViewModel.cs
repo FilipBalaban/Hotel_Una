@@ -16,7 +16,10 @@ namespace Hotel_Una.ViewModels
     public class CalendarViewModel: BaseViewModel
     {
         private readonly ObservableCollection<Week> _weeks;
+        private ObservableCollection<int> _roomNumbers;
+        private readonly Hotel _hotel;
         private DateTime _selectedDate;
+        private int _selectedRoomNum;
         public DateTime SelectedDate
         {
             get => _selectedDate;
@@ -27,20 +30,40 @@ namespace Hotel_Una.ViewModels
                 DisplayCalendar();
             }
         }
+        public IEnumerable<int> RoomNumbers => _roomNumbers;
+        public int SelectedRoomNum
+        {
+            get => _selectedRoomNum;
+            set
+            {
+                _selectedRoomNum = value;
+                OnPropertyChanged(nameof(SelectedRoomNum));
+                DisplayCalendar();
+            }
+        }
         public string CurrentMonth => _selectedDate.ToString("MMMM", new CultureInfo("sr-Latn-RS")) + ' ' + _selectedDate.Year;
         public IEnumerable<Week> Weeks => _weeks;
         public ICommand LastMonthCommand { get; }
         public ICommand NextMonthCommand { get; }
         public CalendarViewModel(Hotel hotel)
         {
+            _hotel = hotel;
             _weeks = new ObservableCollection<Week>();
+            _roomNumbers = new ObservableCollection<int>();
             SelectedDate = DateTime.Now;
             LastMonthCommand = new LastMonthCommand(this);
             NextMonthCommand = new NextMonthCommand(this);
+
+            foreach (Room room in _hotel.GetRooms())
+            {
+                _roomNumbers.Add(room.RoomNum);
+            }
         }
         private void DisplayCalendar()
         {
             _weeks.Clear();
+            List<Reservation> currentMonthReservations = _hotel.GetReservations().Where(r => r.RoomNum == SelectedRoomNum).Where(r => r.StartDate.Month == _selectedDate.Month || r.EndDate.Month == _selectedDate.Month).ToList();
+
             int daysInMonth = DateTime.DaysInMonth(_selectedDate.Year, _selectedDate.Month);
             int daysInWeekCounter = 1;
             Week week = new Week();
@@ -61,12 +84,11 @@ namespace Hotel_Una.ViewModels
                     for (int j = daysInLastMonth - actualDayInWeek + 1; j <= daysInLastMonth; j++)
                     {
                         string dayInLastMonth = new DateTime(year, lastMonth, j).ToString("dddd");
-                        week.AssignDateToDay(j, dayInLastMonth);
+                        week.AssignDateToDay(j, dayInLastMonth, "LightGray");
                         daysInWeekCounter++;
                     }
                 }
-                week.AssignDateToDay(i, dayInMonth);
-
+                AssignDate(new DateTime(_selectedDate.Year, _selectedDate.Month, i), dayInMonth, currentMonthReservations, week);             
                 if (daysInWeekCounter >= 7)
                 {
                     _weeks.Add(week);
@@ -87,12 +109,31 @@ namespace Hotel_Una.ViewModels
                     for (int j = 1; j < 7 - actualDayInWeek; j++)
                     {
                         string dayInNextMonth = new DateTime(year, nextMonth, j).ToString("dddd");
-                        week.AssignDateToDay(j, dayInNextMonth);
+                        week.AssignDateToDay(j, dayInNextMonth, "LightGray");
                         daysInWeekCounter++;
                     }
                     _weeks.Add(week);
                 }
             }
+        }
+        private void AssignDate(DateTime date, string dayInMonth, List<Reservation> currentMonthReservations, Week week)
+        {
+            if (currentMonthReservations.Count > 0)
+            {
+                foreach (Reservation reservation in currentMonthReservations)
+                {
+                    DateOnly reservationStartDate = DateOnly.FromDateTime(reservation.StartDate);
+                    DateOnly reservationEndDate = DateOnly.FromDateTime(reservation.EndDate);
+                    DateOnly dateOnly = DateOnly.FromDateTime(date);
+                    if (reservationStartDate <= dateOnly
+                        && reservationEndDate >= dateOnly)
+                    {
+                        week.AssignDateToDay(date.Day, dayInMonth, "Red", "Bold");
+                        return;
+                    }
+                }
+            }
+            week.AssignDateToDay(date.Day, dayInMonth);
         }
     }
 }

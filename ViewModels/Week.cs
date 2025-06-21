@@ -8,38 +8,38 @@ namespace Hotel_Una.ViewModels
 {
     public class Week
     {
-        public int Monday { get; set; }
-        public int Tuesday { get; set; }
-        public int Wednesday { get; set; }
-        public int Thursday { get; set; }
-        public int Friday { get; set; }
-        public int Saturday { get; set; }
-        public int Sunday { get; set; }
+        public Day Monday { get; set; }
+        public Day Tuesday { get; set; }
+        public Day Wednesday { get; set; }
+        public Day Thursday { get; set; }
+        public Day Friday { get; set; }
+        public Day Saturday { get; set; }
+        public Day Sunday { get; set; }
 
-        public void AssignDateToDay(int date, string day)
+        public void AssignDateToDay(int date, string day, string color="Black", string fontWeight="Normal")
         {
             switch (day)
             {
                 case "Monday":
-                    Monday = date;
+                    Monday = new Day(date, color, fontWeight);
                     break;
                 case "Tuesday":
-                    Tuesday = date;
+                    Tuesday = new Day(date, color, fontWeight);
                     break;
                 case "Wednesday":
-                    Wednesday = date;
+                    Wednesday = new Day(date, color, fontWeight);
                     break;
                 case "Thursday":
-                    Thursday = date;
+                    Thursday = new Day(date, color, fontWeight);
                     break;
                 case "Friday":
-                    Friday = date;
+                    Friday = new Day(date, color, fontWeight);
                     break;
                 case "Saturday":
-                    Saturday = date;
+                    Saturday = new Day(date, color, fontWeight);
                     break;
                 case "Sunday":
-                    Sunday = date;
+                    Sunday = new Day(date, color, fontWeight);
                     break;
             }
         }

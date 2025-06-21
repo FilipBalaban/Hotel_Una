@@ -18,7 +18,6 @@ namespace Hotel_Una.ViewModels
         private string _selectedSortingOrder;
         
         public IEnumerable<ReservationViewModel> Reservations => _reservations;
-        public Dictionary<string, string> SortPropertiesValuesToNames;
 
         public ObservableCollection<SortingItem> SortingPropertyItems { get; set; } = new ObservableCollection<SortingItem>()
         {

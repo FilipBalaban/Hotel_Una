@@ -8,9 +8,9 @@ namespace Hotel_Una.Models
 {
     public class Room
     {
-        int ID { get; }    
-        int RoomNum { get; }
-        int Capacity { get; }
+        public int ID { get; }    
+        public int RoomNum { get; }
+        public int Capacity { get; }
         public Room(int id, int roomNum, int capacity)
         {
             ID = id;

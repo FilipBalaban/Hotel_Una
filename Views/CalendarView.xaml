@@ -15,6 +15,7 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <TextBlock
             HorizontalAlignment="Center"
@@ -39,53 +40,100 @@
                 <fa:ImageAwesome Width="10" Icon="ChevronRight" />
             </Button>
         </StackPanel>
-        <ListView
+        <StackPanel
             Grid.Row="3"
+            Margin="0,20,0,0"
+            Orientation="Horizontal">
+            <TextBlock
+                Margin="0,0,8,0"
+                VerticalAlignment="Center"
+                Text="Soba:" />
+            <ComboBox
+                IsReadOnly="True"
+                Height="30"
+                MinWidth="140"
+                ItemsSource="{Binding RoomNumbers}"
+                SelectedValue="{Binding SelectedRoomNum}"
+                Style="{StaticResource RoundComboBox}" />
+        </StackPanel>
+        <ListView
+            Grid.Row="4"
             Margin="0,24,0,0"
             ItemsSource="{Binding Weeks}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn
-                        Width="80"
-                        DisplayMemberBinding="{Binding Sunday}"
-                        Header="Nedelja" />
-                    <GridViewColumn
-                        Width="80"
-                        DisplayMemberBinding="{Binding Monday}"
-                        Header="Ponedeljak" />
-                    <GridViewColumn
-                        Width="80"
-                        DisplayMemberBinding="{Binding Tuesday}"
-                        Header="Utorak" />
-                    <GridViewColumn
-                        Width="80"
-                        DisplayMemberBinding="{Binding Wednesday}"
-                        Header="Srijeda" />
-                    <GridViewColumn
-                        Width="80"
-                        DisplayMemberBinding="{Binding Thursday}"
-                        Header="Četvrtak" />
-                    <GridViewColumn
-                        Width="80"
-                        DisplayMemberBinding="{Binding Friday}"
-                        Header="Petak" />
-                    <GridViewColumn
-                        Width="80"
-                        DisplayMemberBinding="{Binding Saturday}"
-                        Header="Subota" />
+                    <GridViewColumn Width="80" Header="Nedelja">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    FontWeight="{Binding Sunday.FontWeight}"
+                                    Foreground="{Binding Sunday.ForegroundColor}"
+                                    Text="{Binding Sunday.Date}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="80" Header="Ponedeljak">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    FontWeight="{Binding Monday.FontWeight}"
+                                    Foreground="{Binding Monday.ForegroundColor}"
+                                    Text="{Binding Monday.Date}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="80" Header="Utorak">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    FontWeight="{Binding Tuesday.FontWeight}"
+                                    Foreground="{Binding Tuesday.ForegroundColor}"
+                                    Text="{Binding Tuesday.Date}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="80" Header="Srijeda">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    FontWeight="{Binding Wednesday.FontWeight}"
+                                    Foreground="{Binding Wednesday.ForegroundColor}"
+                                    Text="{Binding Wednesday.Date}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="80" Header="Četvrtak">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    FontWeight="{Binding Thursday.FontWeight}"
+                                    Foreground="{Binding Thursday.ForegroundColor}"
+                                    Text="{Binding Thursday.Date}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="80" Header="Petak">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    FontWeight="{Binding Friday.FontWeight}"
+                                    Foreground="{Binding Friday.ForegroundColor}"
+                                    Text="{Binding Friday.Date}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="80" Header="Subota">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    FontWeight="{Binding Saturday.FontWeight}"
+                                    Foreground="{Binding Saturday.ForegroundColor}"
+                                    Text="{Binding Saturday.Date}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
-        <!--<DataGrid Grid.Row="3" Margin="0, 24, 0, 0" ItemsSource="{Binding Weeks}">
-            <DataGrid.Columns>
-                <DataGridTextColumn MinWidth="80" Header="Nedelja" Binding="{Binding Sunday}"/>
-                <DataGridTextColumn MinWidth="80" Header="Ponedeljak" Binding="{Binding Monday}"/>
-                <DataGridTextColumn MinWidth="80" Header="Utorak" Binding="{Binding Tuesday}"/>
-                <DataGridTextColumn MinWidth="80" Header="Srijeda" Binding="{Binding Wednesday}"/>
-                <DataGridTextColumn MinWidth="80" Header="Četvrtak" Binding="{Binding Thursday}"/>
-                <DataGridTextColumn MinWidth="80" Header="Petak" Binding="{Binding Friday}"/>
-                <DataGridTextColumn MinWidth="80" Header="Subota" Binding="{Binding Saturday}"/>
-            </DataGrid.Columns>
-        </DataGrid>-->
     </Grid>
 </UserControl>
