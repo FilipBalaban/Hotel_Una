@@ -13,7 +13,7 @@ namespace Hotel_Una.DatabaseContext
         public HotelDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<HotelDbContext>();
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-R16IC6C;Initial Catalog=HotelUnaDb;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
+            optionsBuilder.UseSqlite(@"Data Source=DESKTOP-92VTUS6\SQLEXPRESS;Initial Catalog=HotelUnaDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
 
             return new HotelDbContext(optionsBuilder.Options);
         }

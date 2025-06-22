@@ -18,7 +18,7 @@ namespace Hotel_Una.DTOs
         public HotelDbContext CreateDbContext()
         {
             var optionsBuilder = new DbContextOptionsBuilder<HotelDbContext>();
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-R16IC6C;Initial Catalog=HotelUnaDb;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
+            optionsBuilder.UseSqlServer(_connectionString);
             return new HotelDbContext(optionsBuilder.Options);
         }
     }

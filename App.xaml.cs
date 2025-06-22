@@ -19,7 +19,7 @@ namespace Hotel_Una
         private readonly Hotel _hotel;
         private readonly NavigationStore _navigationStore;
         private readonly NavigationSideBarViewModel _navigationSideBarViewModel;
-        private const string CONNECTION_STRING = @"Data Source=DESKTOP-R16IC6C;Initial Catalog=HotelUnaDb;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
+        private const string CONNECTION_STRING = @"Data Source=DESKTOP-92VTUS6\SQLEXPRESS;Initial Catalog=HotelUnaDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
         private readonly HotelDbContextFactory _hotelDbContextFactory;
         private readonly DatabaseReservationManager _databaseReservationManager;
         public App()
