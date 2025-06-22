@@ -2,6 +2,7 @@
 using Hotel_Una.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
@@ -51,70 +52,78 @@ namespace Hotel_Una.ViewModels
                 }
             }
         }
+        public ICommand LoadReservationsCommand { get; }
         public ReservationOverviewViewModel(Hotel hotel)
         {
             _reservations = new ObservableCollection<ReservationViewModel>();
             _hotel = hotel;
-            LoadReservations();
+            LoadReservationsCommand = new LoadReservationsCommand(this, _hotel);
         }
-        private void LoadReservations()
+        public static ReservationOverviewViewModel LoadViewModel(Hotel hotel)
+        {
+            ReservationOverviewViewModel viewModel = new ReservationOverviewViewModel(hotel);
+            viewModel.LoadReservationsCommand.Execute(null);
+            return viewModel;
+        }
+        public void LoadReservations(IEnumerable<Reservation> reservations)
         {
             _reservations.Clear();
-            foreach (Reservation reservation in _hotel.GetReservations())
+            foreach (Reservation reservation in reservations)
             {
                 _reservations.Add(new ReservationViewModel(reservation));
             }
         }
         private void SortReservations(string sortPropertyName, string sortOrder)
         {
+            List<ReservationViewModel> reservationsList = _reservations.ToList();
             _reservations.Clear();
-            List<Reservation>  reservations = _hotel.GetReservations().ToList();
+
             switch (sortPropertyName)
             {
                 case "ID":
                     if(sortOrder == "Ascending")
                     {
-                        reservations.Sort((r1, r2) => r1.ID.CompareTo(r2.ID));
+                        reservationsList.Sort((r1, r2) => r1.ID.CompareTo(r2.ID));
                     }
                     else
                     {
-                        reservations.Sort((r1, r2) => r2.ID.CompareTo(r1.ID));
+                        reservationsList.Sort((r1, r2) => r2.ID.CompareTo(r1.ID));
                     }
                     break;
                 case "ReservationDate":
                     if (sortOrder == "Ascending")
                     {
-                        reservations.Sort((r1, r2) => r1.ReservationDate.CompareTo(r2.ReservationDate));
+                        reservationsList.Sort((r1, r2) => r1.ReservationDate.CompareTo(r2.ReservationDate));
                     }
                     else
                     {
-                        reservations.Sort((r1, r2) => r2.ReservationDate.CompareTo(r1.ReservationDate));
+                        reservationsList.Sort((r1, r2) => r2.ReservationDate.CompareTo(r1.ReservationDate));
                     }
                     break;
                 case "StartDate":
                     if (sortOrder == "Ascending")
                     {
-                        reservations.Sort((r1, r2) => r1.StartDate.CompareTo(r2.StartDate));
+                        reservationsList.Sort((r1, r2) => r1.StartDate.CompareTo(r2.StartDate));
                     }
                     else
                     {
-                        reservations.Sort((r1, r2) => r2.StartDate.CompareTo(r1.StartDate));
+                        reservationsList.Sort((r1, r2) => r2.StartDate.CompareTo(r1.StartDate));
                     }
                     break;
                 case "EndDate":
                     if (sortOrder == "Ascending")
                     {
-                        reservations.Sort((r1, r2) => r1.EndDate.CompareTo(r2.EndDate));
+                        reservationsList.Sort((r1, r2) => r1.EndDate.CompareTo(r2.EndDate));
                     }
                     else
                     {
-                        reservations.Sort((r1, r2) => r2.EndDate.CompareTo(r1.EndDate));
+                        reservationsList.Sort((r1, r2) => r2.EndDate.CompareTo(r1.EndDate));
                     }
                     break;
             }
-            foreach(Reservation reservation in reservations)
+            foreach(ReservationViewModel r in reservationsList)
             {
-                _reservations.Add(new ReservationViewModel(reservation));
+                _reservations.Add(r);
             }
         }
     }

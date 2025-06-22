@@ -1,4 +1,5 @@
 ﻿using Hotel_Una.Exceptions;
+using Hotel_Una.Services.ReservationManagers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,33 +15,33 @@ namespace Hotel_Una.Models
 
         public string Name { get; }
 
-        public Hotel(string name)
+        public Hotel(string name, DatabaseReservationManager databaseReservationManager)
         {
             _rooms = new List<Room>()
             {
                 new Room(1, 1, 3), new Room(2, 2, 1), new Room(3, 3, 2), new Room(4, 4, 2), new Room(5, 5, 2),
             };
-            _reservationBook = new ReservationBook();
+            _reservationBook = new ReservationBook(databaseReservationManager);
             Name = name;
         }
-        public void AddReservation(Reservation reservation)
+        public async Task AddReservation(Reservation reservation)
         {
             CheckRoomCompatibility(reservation);
 
-            _reservationBook.AddReservation(reservation);
+            await _reservationBook.AddReservation(reservation);
         }
-        public void RemoveReservation(Reservation reservation)
+        public async Task RemoveReservation(Reservation reservation)
         {
-            _reservationBook.RemoveReservation(reservation);
+            await _reservationBook.RemoveReservation(reservation);
         }
-        public void UpdateReservation(Reservation newReservation)
+        public async Task UpdateReservation(Reservation newReservation)
         {
             CheckRoomCompatibility(newReservation);
-            _reservationBook.UpdateReservation(newReservation);
+            await _reservationBook.UpdateReservation(newReservation);
         }
-        public IEnumerable<Reservation> GetReservations()
+        public async Task<IEnumerable<Reservation>> GetReservations()
         {
-            return _reservationBook.GetReservations();
+            return await _reservationBook.GetReservations();
         }
         public IEnumerable<Room> GetRooms()
         {

@@ -12,7 +12,7 @@ using System.Windows;
 
 namespace Hotel_Una.Commands
 {
-    public class UpdateReservationCommand : BaseCommand
+    public class UpdateReservationCommand : AsyncBaseCommand
     {
         private readonly Hotel _hotel;
         private readonly UpdateReservationViewModel _updateReservationViewModel;
@@ -43,12 +43,12 @@ namespace Hotel_Una.Commands
         {
             return _updateReservationViewModel.RoomNum > 0 && !(string.IsNullOrEmpty(_updateReservationViewModel.FirstName)) && !(string.IsNullOrEmpty(_updateReservationViewModel.LastName)) && _updateReservationViewModel.NumberOfGuests > 0;
         }
-        public override void Execute(object? parameter)
+        public override async Task ExecuteAsync(object? parameter)
         {
             Reservation reservation = new Reservation(_updateReservationViewModel.ReservationID, _updateReservationViewModel.RoomNum, _updateReservationViewModel.FirstName, _updateReservationViewModel.LastName, _updateReservationViewModel.StartDate, _updateReservationViewModel.EndDate, _updateReservationViewModel.NumberOfGuests);
             try
             {
-                _hotel.UpdateReservation(reservation);
+                await _hotel.UpdateReservation(reservation);
                 MessageBox.Show("Rezervacija je uspješno ažurirana", "Uspjeh", MessageBoxButton.OK, MessageBoxImage.Information);
                 _navigationService.Navigate();
             }

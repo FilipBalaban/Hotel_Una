@@ -12,7 +12,7 @@ using System.Windows;
 
 namespace Hotel_Una.Commands
 {
-    public class RemoveReservationCommand : BaseCommand
+    public class RemoveReservationCommand : AsyncBaseCommand
     {
         private readonly Hotel _hotel;
         private readonly RemoveReservationViewModel _removeReservationViewModel;
@@ -38,14 +38,16 @@ namespace Hotel_Una.Commands
         {
             return _removeReservationViewModel.ReservationContentControl != null;
         }
-        public override void Execute(object? parameter)
+
+        public override async Task ExecuteAsync(object? parameter)
         {
             try
             {
-                var reservation = _hotel.GetReservations().FirstOrDefault(r => r.ID == _removeReservationViewModel.ReservationID);
-                if(reservation != null)
+                IEnumerable<Reservation> reservations = await _hotel.GetReservations();
+                Reservation? reservation = reservations.FirstOrDefault(r => r.ID == _removeReservationViewModel.ReservationID);
+                if (reservation != null)
                 {
-                    _hotel.RemoveReservation(reservation);
+                    await _hotel.RemoveReservation(reservation);
                 }
                 else
                 {

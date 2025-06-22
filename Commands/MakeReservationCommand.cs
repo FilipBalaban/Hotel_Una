@@ -12,7 +12,7 @@ using System.Windows;
 
 namespace Hotel_Una.Commands
 {
-    public class MakeReservationCommand : BaseCommand
+    public class MakeReservationCommand : AsyncBaseCommand
     {
         private readonly Hotel _hotel;
         private readonly MakeReservationViewModel _makeReservationViewModel;
@@ -28,13 +28,13 @@ namespace Hotel_Una.Commands
         {
             return _makeReservationViewModel.RoomNum > 0 && !(string.IsNullOrEmpty(_makeReservationViewModel.FirstName)) && !(string.IsNullOrEmpty(_makeReservationViewModel.LastName)) && _makeReservationViewModel.NumberOfGuests > 0 && _makeReservationViewModel.StartDate < _makeReservationViewModel.EndDate;
         }
-        public override void Execute(object? parameter)
+        public override async Task ExecuteAsync(object? parameter)
         {
             Reservation reservation = new Reservation(_makeReservationViewModel.RoomNum, _makeReservationViewModel.FirstName, _makeReservationViewModel.LastName, _makeReservationViewModel.StartDate, _makeReservationViewModel.EndDate, _makeReservationViewModel.NumberOfGuests);
 
             try
             {
-                _hotel.AddReservation(reservation);
+                await _hotel.AddReservation(reservation);
                 MessageBox.Show("Soba je uspješno rezervisana", "Uspjeh", MessageBoxButton.OK, MessageBoxImage.Information);
                 _navigationService.Navigate();
             } catch (ReservationConflictsException ex)

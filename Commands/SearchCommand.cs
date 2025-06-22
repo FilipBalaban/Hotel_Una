@@ -11,7 +11,7 @@ using System.Windows;
 
 namespace Hotel_Una.Commands
 {
-    public class SearchCommand : BaseCommand
+    public class SearchCommand : AsyncBaseCommand
     {
         private RemoveReservationViewModel? _removeReservationViewModel;
         private UpdateReservationViewModel? _updateReservationViewModel;
@@ -57,19 +57,22 @@ namespace Hotel_Una.Commands
             }
             return false;
         }
-        public override void Execute(object? parameter)
+        public override async Task ExecuteAsync(object? parameter)
         {
             int reservationID = 0;
-            if(_removeReservationViewModel != null)
+            IEnumerable<Reservation> reservations = await _hotel.GetReservations();
+            Reservation reservation;
+            if (_removeReservationViewModel != null)
             {
                 reservationID = _removeReservationViewModel.ReservationID;
+                reservation = reservations.FirstOrDefault(r => r.ID == _removeReservationViewModel.ReservationID);
             }
             else
             {
                 reservationID = _updateReservationViewModel.ReservationID;
+                reservation = reservations.FirstOrDefault(r => r.ID == _updateReservationViewModel.ReservationID);
             }
 
-            var reservation = _hotel.GetReservations().ToList().FirstOrDefault(r => r.ID == reservationID);
             if (reservation != null)
             {
                 if (_removeReservationViewModel != null)

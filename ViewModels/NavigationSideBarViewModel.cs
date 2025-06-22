@@ -90,7 +90,7 @@ namespace Hotel_Una.ViewModels
         }
         private ReservationOverviewViewModel CreateReservationOverviewVM()
         {
-            return new ReservationOverviewViewModel(_hotel);
+            return ReservationOverviewViewModel.LoadViewModel(_hotel);
         }
         private MakeReservationViewModel CreateMakeReservationVM()
         {
@@ -106,7 +106,7 @@ namespace Hotel_Una.ViewModels
         }
         private CalendarViewModel CreateCalendarVM()
         {
-            return new CalendarViewModel(_hotel);
+            return CalendarViewModel.LoadViewModel(_hotel);
         }
         public void UpdateCheckedBtn()
         {

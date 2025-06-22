@@ -15,6 +15,7 @@ namespace Hotel_Una.ViewModels
 {
     public class CalendarViewModel: BaseViewModel
     {
+        private List<Reservation> _reservations;
         private readonly ObservableCollection<Week> _weeks;
         private ObservableCollection<int> _roomNumbers;
         private readonly Hotel _hotel;
@@ -45,27 +46,36 @@ namespace Hotel_Una.ViewModels
         public IEnumerable<Week> Weeks => _weeks;
         public ICommand LastMonthCommand { get; }
         public ICommand NextMonthCommand { get; }
+        public ICommand LoadReservationsCommand { get; }
         public CalendarViewModel(Hotel hotel)
         {
             _hotel = hotel;
             _weeks = new ObservableCollection<Week>();
             _roomNumbers = new ObservableCollection<int>();
+            _reservations = new List<Reservation>();
             SelectedDate = DateTime.Now;
             LastMonthCommand = new LastMonthCommand(this);
             NextMonthCommand = new NextMonthCommand(this);
+            LoadReservationsCommand = new LoadReservationsCommand(this, hotel);
 
             foreach (Room room in _hotel.GetRooms())
             {
                 _roomNumbers.Add(room.RoomNum);
             }
         }
+        public static CalendarViewModel LoadViewModel(Hotel hotel)
+        {
+            CalendarViewModel viewModel = new CalendarViewModel(hotel);
+            viewModel.LoadReservationsCommand.Execute(null);
+            return viewModel;
+        }
         private void DisplayCalendar()
         {
             _weeks.Clear();
-            List<Reservation> currentMonthReservations = _hotel.GetReservations().Where(r => r.RoomNum == SelectedRoomNum).Where(r => r.StartDate.Month == _selectedDate.Month || r.EndDate.Month == _selectedDate.Month).ToList();
-
             int daysInMonth = DateTime.DaysInMonth(_selectedDate.Year, _selectedDate.Month);
             int daysInWeekCounter = 1;
+            List<Reservation> currentMonthReservations = _reservations.Where(r => r.RoomNum == SelectedRoomNum).Where(r => r.StartDate.Month == _selectedDate.Month || r.EndDate.Month == _selectedDate.Month).ToList();
+
             Week week = new Week();
             for(int i = 1; i <= daysInMonth; i++)
             {
@@ -134,6 +144,10 @@ namespace Hotel_Una.ViewModels
                 }
             }
             week.AssignDateToDay(date.Day, dayInMonth);
+        }
+        public void LoadReservations(IEnumerable<Reservation> reservations)
+        {
+            _reservations = reservations.ToList();
         }
     }
 }

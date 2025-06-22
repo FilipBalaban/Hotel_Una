@@ -1,4 +1,5 @@
 ﻿using Hotel_Una.Exceptions;
+using Hotel_Una.Services.ReservationManagers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,50 +10,53 @@ namespace Hotel_Una.Models
 {
     public class ReservationBook
     {
-        private readonly List<Reservation> _reservations;
+        private readonly DatabaseReservationManager _databaseReservationManager;
 
-        public ReservationBook()
+        public ReservationBook(DatabaseReservationManager databaseReservationManager)
         {
-            _reservations = new List<Reservation>();
+            _databaseReservationManager = databaseReservationManager;
         }
-        public void AddReservation(Reservation reservation)
+        public async Task AddReservation(Reservation reservation)
         {
-            foreach(Reservation existingReservation in _reservations)
+            IEnumerable<Reservation> reservations = await _databaseReservationManager.GetReservations();
+            foreach (Reservation existingReservation in reservations)
             {
                 if (existingReservation.CausesConflicts(reservation))
                 {
                     throw new ReservationConflictsException(existingReservation, reservation);
                 }
             }
-            _reservations.Add(reservation);
+            await _databaseReservationManager.AddReservation(reservation);
         }
-        public void RemoveReservation(Reservation reservation)
+        public async Task RemoveReservation(Reservation reservation)
         {
-            if (!_reservations.Contains(reservation))
+            IEnumerable<Reservation> reservations = await _databaseReservationManager.GetReservations();
+            if (!reservations.Contains(reservation))
             {
                 throw new NonExistentReservationException(reservation);
             }
-            _reservations.Remove(reservation);
+            await _databaseReservationManager.RemoveReservation(reservation);
         }
-        public void UpdateReservation(Reservation newReservation)
+        public async Task UpdateReservation(Reservation newReservation)
         {
-            if (!_reservations.Any(r => r.ID == newReservation.ID))
+            IEnumerable<Reservation> reservations = await _databaseReservationManager.GetReservations();
+
+            if (!reservations.Any(r => r.ID == newReservation.ID))
             {
                 throw new NonExistentReservationException(newReservation);
             }
-            foreach (Reservation existingReservation in _reservations)
+            foreach (Reservation existingReservation in reservations)
             {
                 if (newReservation.CausesConflicts(existingReservation))
                 {
                     throw new ReservationConflictsException(existingReservation, newReservation);
                 }
             }
-            
-            _reservations[_reservations.IndexOf(_reservations.FirstOrDefault(r => r.ID == newReservation.ID))] = newReservation;
+            await _databaseReservationManager.UpdateReservation(newReservation);
         }
-        public IEnumerable<Reservation> GetReservations()
+        public async Task<IEnumerable<Reservation>> GetReservations()
         {
-            return _reservations;
+            return await _databaseReservationManager.GetReservations();
         }
     }
 }

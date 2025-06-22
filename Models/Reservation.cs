@@ -9,8 +9,8 @@ namespace Hotel_Una.Models
 {
     public class Reservation
     {
-        private static int _objectCounter;
-        private bool _objectCounterIncreased;
+        //private static int _objectCounter;
+        //private bool _objectCounterIncreased;
         public int ID { get; }
         public int RoomNum { get; set; }
         public string FirstName { get; set; }
@@ -35,9 +35,9 @@ namespace Hotel_Una.Models
         // From VM
         public Reservation(int roomNum, string firstName, string lastName, DateTime startDate, DateTime endDate, int numberOfGuests)
         {
-            _objectCounter++;
-            _objectCounterIncreased = true;
-            ID = _objectCounter;
+            //_objectCounter++;
+            //_objectCounterIncreased = true;
+            //ID = _objectCounter;
             RoomNum = roomNum;
             FirstName = firstName;
             LastName = lastName;
@@ -46,13 +46,13 @@ namespace Hotel_Una.Models
             EndDate = endDate;
             NumberOfGuests = numberOfGuests;
         }
-        ~Reservation()
-        {
-            if (_objectCounterIncreased)
-            {
-                _objectCounter--;
-            }
-        }
+        //~Reservation()
+        //{
+        //    if (_objectCounterIncreased)
+        //    {
+        //        _objectCounter--;
+        //    }
+        //}
         public bool CausesConflicts(Reservation reservation)
         {
             if(RoomNum != reservation.RoomNum || ID == reservation.ID)
